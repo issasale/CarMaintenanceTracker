@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,8 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.carmaintenancetracker.components.BottomBar
+import com.example.carmaintenancetracker.components.CarCard
 import com.example.carmaintenancetracker.data.DataRepository
-import androidx.compose.foundation.clickable
 
 @Composable
 fun CarsScreen(
@@ -78,33 +75,10 @@ fun CarsScreen(
 
             LazyColumn {
                 items(DataRepository.carsList) { car ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 12.dp)
-                            .clickable {
-                                onCarClick(car.id)
-                            },
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = "${car.brand} ${car.model}",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Spacer(modifier = Modifier.height(6.dp))
-
-                            Text("Год выпуска: ${car.year}")
-                            Text("Цвет: ${car.color}")
-                            Text("Госномер: ${car.plateNumber}")
-                            Text("Пробег: ${car.mileage} км")
-                        }
-                    }
+                    CarCard(
+                        car = car,
+                        onClick = { onCarClick(car.id) }
+                    )
                 }
             }
         }

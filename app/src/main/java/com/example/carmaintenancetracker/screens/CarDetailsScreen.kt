@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.carmaintenancetracker.components.MaintenanceCard
 import com.example.carmaintenancetracker.data.DataRepository
 
 @Composable
@@ -37,7 +38,8 @@ fun CarDetailsScreen(
     onBackClick: () -> Unit,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    onAddMaintenanceClick: () -> Unit
+    onAddMaintenanceClick: () -> Unit,
+    onEditMaintenanceClick: (String) -> Unit
 ) {
     val car = DataRepository.carsList.find { it.id == carId }
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -56,12 +58,7 @@ fun CarDetailsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 32.dp,
-                    bottom = 16.dp
-                )
+                .padding(start = 16.dp, end = 16.dp, top = 32.dp, bottom = 16.dp)
         ) {
             Text(
                 text = "Детали автомобиля",
@@ -74,16 +71,10 @@ fun CarDetailsScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 4.dp
-                )
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
-                Column(
-                    modifier = Modifier.padding(20.dp)
-                ) {
+                Column(modifier = Modifier.padding(20.dp)) {
                     Text(
                         text = "${car.brand} ${car.model}",
                         style = MaterialTheme.typography.headlineSmall,
@@ -94,19 +85,14 @@ fun CarDetailsScreen(
 
                     Text("🚗 Марка: ${car.brand}")
                     Spacer(modifier = Modifier.height(6.dp))
-
                     Text("📄 Модель: ${car.model}")
                     Spacer(modifier = Modifier.height(6.dp))
-
                     Text("📅 Год: ${car.year}")
                     Spacer(modifier = Modifier.height(6.dp))
-
                     Text("🎨 Цвет: ${car.color}")
                     Spacer(modifier = Modifier.height(6.dp))
-
                     Text("🔢 Госномер: ${car.plateNumber}")
                     Spacer(modifier = Modifier.height(6.dp))
-
                     Text("📍 Пробег: ${car.mileage} км")
                 }
             }
@@ -136,22 +122,18 @@ fun CarDetailsScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Button(
-                    onClick = onEditClick,
+                    onClick = onEditClick, // Изменить машину
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Редактировать")
+                    Text("Редактировать авто")
                 }
 
                 Button(
-                    onClick = {
-                        showDeleteDialog = true
-                    },
+                    onClick = { showDeleteDialog = true }, // Удалить машину
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                 ) {
-                    Text("Удалить")
+                    Text("Удалить авто")
                 }
             }
 
@@ -172,106 +154,44 @@ fun CarDetailsScreen(
                     items = maintenanceList,
                     key = { it.id }
                 ) { maintenance ->
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 12.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column {
-                                    Text(
-                                        text = maintenance.type,
-                                        fontWeight = FontWeight.Bold
-                                    )
-
-                                    Spacer(modifier = Modifier.height(4.dp))
-
-                                    Text(
-                                        text = maintenance.date,
-                                        color = Color.Gray
-                                    )
-
-                                    Spacer(modifier = Modifier.height(4.dp))
-
-                                    Text(
-                                        text = "Пробег: ${maintenance.mileage} км",
-                                        color = Color.Gray
-                                    )
-                                }
-
-                                Text(
-                                    text = "${maintenance.cost.toInt()} ₽",
-                                    color = Color(0xFFDC2626),
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.height(12.dp))
-
-                            Button(
-                                onClick = {
-                                    DataRepository.maintenanceList.removeAll {
-                                        it.id == maintenance.id
-                                    }
-                                },
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Red
-                                )
-                            ) {
-                                Text("Удалить обслуживание")
-                            }
+                    MaintenanceCard(
+                        maintenance = maintenance,
+                        onEditClick = { onEditMaintenanceClick(maintenance.id) },
+                        onDeleteClick = {
+                            DataRepository.maintenanceList.removeAll { it.id == maintenance.id }
                         }
-                    }
+                    )
                 }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Button(
+                onClick = onBackClick,
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+            ) {
+                Text("Назад к списку")
             }
         }
 
         if (showDeleteDialog) {
             AlertDialog(
-                onDismissRequest = {
-                    showDeleteDialog = false
-                },
-                title = {
-                    Text("Удалить автомобиль")
-                },
-                text = {
-                    Text("Вы уверены, что хотите удалить этот автомобиль?")
-                },
+                onDismissRequest = { showDeleteDialog = false },
+                title = { Text("Удалить автомобиль") },
+                text = { Text("Вы уверены, что хотите удалить этот автомобиль и всю его историю ТО?") },
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            DataRepository.maintenanceList.removeAll {
-                                it.carId == car.id
-                            }
-
+                            DataRepository.maintenanceList.removeAll { it.carId == car.id }
                             DataRepository.carsList.remove(car)
                             showDeleteDialog = false
                             onDeleteClick()
                         }
-                    ) {
-                        Text("Удалить")
-                    }
+                    ) { Text("Удалить", color = Color.Red) }
                 },
                 dismissButton = {
-                    TextButton(
-                        onClick = {
-                            showDeleteDialog = false
-                        }
-                    ) {
-                        Text("Отмена")
-                    }
+                    TextButton(onClick = { showDeleteDialog = false }) { Text("Отмена") }
                 }
             )
         }
