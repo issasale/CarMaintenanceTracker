@@ -43,7 +43,6 @@ fun CarMaintenanceTrackerTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        // typography = Typography, // раскомментируй, если у тебя есть свой Typography.kt
         content = content
     )
 }
