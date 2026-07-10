@@ -1,5 +1,6 @@
 package com.example.carmaintenancetracker.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.carmaintenancetracker.components.MaintenanceCard
@@ -53,7 +53,9 @@ fun CarDetailsScreen(
     val totalExpenses = maintenanceList.sumOf { it.cost }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -63,7 +65,8 @@ fun CarDetailsScreen(
             Text(
                 text = "Детали автомобиля",
                 style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -71,29 +74,30 @@ fun CarDetailsScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Text(
                         text = "${car.brand} ${car.model}",
                         style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text("🚗 Марка: ${car.brand}")
+                    Text("🚗 Марка: ${car.brand}", color = MaterialTheme.colorScheme.onSurface)
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text("📄 Модель: ${car.model}")
+                    Text("📄 Модель: ${car.model}", color = MaterialTheme.colorScheme.onSurface)
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text("📅 Год: ${car.year}")
+                    Text("📅 Год: ${car.year}", color = MaterialTheme.colorScheme.onSurface)
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text("🎨 Цвет: ${car.color}")
+                    Text("🎨 Цвет: ${car.color}", color = MaterialTheme.colorScheme.onSurface)
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text("🔢 Госномер: ${car.plateNumber}")
+                    Text("🔢 Госномер: ${car.plateNumber}", color = MaterialTheme.colorScheme.onSurface)
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text("📍 Пробег: ${car.mileage} км")
+                    Text("📍 Пробег: ${car.mileage} км", color = MaterialTheme.colorScheme.onSurface)
                 }
             }
 
@@ -103,7 +107,7 @@ fun CarDetailsScreen(
                 text = "Расходы: ${totalExpenses.toInt()} ₽",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFDC2626)
+                color = MaterialTheme.colorScheme.error
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -122,18 +126,18 @@ fun CarDetailsScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Button(
-                    onClick = onEditClick, // Изменить машину
+                    onClick = onEditClick,
                     modifier = Modifier.weight(1f)
                 ) {
                     Text("Редактировать авто")
                 }
 
                 Button(
-                    onClick = { showDeleteDialog = true }, // Удалить машину
+                    onClick = { showDeleteDialog = true },
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
-                    Text("Удалить авто")
+                    Text("Удалить авто", color = MaterialTheme.colorScheme.onError)
                 }
             }
 
@@ -142,7 +146,8 @@ fun CarDetailsScreen(
             Text(
                 text = "История обслуживания",
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -169,9 +174,9 @@ fun CarDetailsScreen(
             Button(
                 onClick = onBackClick,
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
             ) {
-                Text("Назад к списку")
+                Text("Назад к списку", color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
 
@@ -188,7 +193,7 @@ fun CarDetailsScreen(
                             showDeleteDialog = false
                             onDeleteClick()
                         }
-                    ) { Text("Удалить", color = Color.Red) }
+                    ) { Text("Удалить", color = MaterialTheme.colorScheme.error) }
                 },
                 dismissButton = {
                     TextButton(onClick = { showDeleteDialog = false }) { Text("Отмена") }

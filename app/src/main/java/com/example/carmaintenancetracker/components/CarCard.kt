@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.carmaintenancetracker.data.CarModel
@@ -30,7 +29,7 @@ fun CarCard(
             .padding(bottom = 12.dp)
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -39,15 +38,16 @@ fun CarCard(
             Text(
                 text = "${car.brand} ${car.model}",
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            Text("Год выпуска: ${car.year}")
-            Text("Цвет: ${car.color}")
-            Text("Госномер: ${car.plateNumber}")
-            Text("Пробег: ${car.mileage} км")
+            Text("Год выпуска: ${car.year}", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("Цвет: ${car.color}", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("Госномер: ${car.plateNumber}", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("Пробег: ${car.mileage} км", color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

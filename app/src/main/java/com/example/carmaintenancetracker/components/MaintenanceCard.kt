@@ -12,10 +12,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.carmaintenancetracker.data.MaintenanceModel
@@ -32,7 +32,7 @@ fun MaintenanceCard(
             .fillMaxWidth()
             .padding(bottom = 12.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -45,27 +45,28 @@ fun MaintenanceCard(
                 Column {
                     Text(
                         text = maintenance.type,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = maintenance.date,
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = "Пробег: ${maintenance.mileage} км",
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
                 Text(
                     text = "${maintenance.cost.toInt()} ₽",
-                    color = Color(0xFFDC2626),
+                    color = MaterialTheme.colorScheme.error,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -87,10 +88,10 @@ fun MaintenanceCard(
                 Button(
                     onClick = onDeleteClick,
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF3B30)),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    Text("Удалить ТО", fontWeight = FontWeight.Medium)
+                    Text("Удалить ТО", fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onError)
                 }
             }
         }

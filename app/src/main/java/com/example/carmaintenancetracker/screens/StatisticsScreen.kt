@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,7 +47,7 @@ fun StatisticsScreen(
                 onSettingsClick = onSettingsClick
             )
         },
-        containerColor = Color(0xFFFAFAFA)
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
 
         LazyColumn(
@@ -65,13 +65,13 @@ fun StatisticsScreen(
                     text = "Статистика",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Text(
                     text = "Управляйте обслуживанием вашего автомобиля",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(top = 8.dp, bottom = 24.dp)
                 )
@@ -80,7 +80,7 @@ fun StatisticsScreen(
                     text = "Расходы за месяц",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 12.dp),
@@ -91,14 +91,14 @@ fun StatisticsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 24.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Text(
                         text = "${totalExpenses.toInt()} ₽",
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFFFF3B30),
+                        color = MaterialTheme.colorScheme.error,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 28.dp),
@@ -118,7 +118,7 @@ fun StatisticsScreen(
                         text = "Самая дорогая услуга",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 12.dp),
@@ -141,7 +141,7 @@ fun StatItemCard(name: String, cost: Int) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 6.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
         Row(
@@ -155,13 +155,13 @@ fun StatItemCard(name: String, cost: Int) {
                 text = name,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color(0xFF4A4A4A)
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = "$cost ₽",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFFF3B30)
+                color = MaterialTheme.colorScheme.error
             )
         }
     }

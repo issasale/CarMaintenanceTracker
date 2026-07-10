@@ -1,5 +1,6 @@
 package com.example.carmaintenancetracker.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.carmaintenancetracker.data.DataRepository
@@ -43,11 +43,10 @@ import java.util.Locale
 @Composable
 fun AddMaintenanceScreen(
     carId: String,
-    maintenanceId: String? = null, // Добавили ID для режима редактирования
+    maintenanceId: String? = null,
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit
 ) {
-    // Ищем существующую запись ТО, если передан ID
     val existingMaintenance = maintenanceId?.let { id ->
         DataRepository.maintenanceList.find { it.id == id }
     }
@@ -64,7 +63,6 @@ fun AddMaintenanceScreen(
         "Другое"
     )
 
-    // Если редактируем — подставляем старые значения, если создаем — пустые
     var type by remember { mutableStateOf(existingMaintenance?.type ?: maintenanceTypes[0]) }
     var date by remember { mutableStateOf(existingMaintenance?.date ?: "") }
     var cost by remember { mutableStateOf(existingMaintenance?.cost?.toString() ?: "") }
@@ -77,18 +75,19 @@ fun AddMaintenanceScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .padding(start = 16.dp, end = 16.dp, top = 40.dp, bottom = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Text(
             text = if (existingMaintenance == null) "Добавить обслуживание" else "Редактировать обслуживание",
             style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // --- Выпадающий список типов ТО ---
         ExposedDropdownMenuBox(
             expanded = dropdownExpanded,
             onExpandedChange = { dropdownExpanded = !dropdownExpanded },
@@ -121,7 +120,6 @@ fun AddMaintenanceScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // --- Выбор даты через Календарь ---
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -176,7 +174,6 @@ fun AddMaintenanceScreen(
         Button(
             onClick = {
                 if (existingMaintenance == null) {
-                    // Создание новой записи
                     val newMaintenance = MaintenanceModel(
                         id = System.currentTimeMillis().toString(),
                         carId = carId,
@@ -188,7 +185,6 @@ fun AddMaintenanceScreen(
                     )
                     DataRepository.maintenanceList.add(newMaintenance)
                 } else {
-                    // РЕДАКТИРОВАНИЕ СУЩЕСТВУЮЩЕЙ ЗАПИСИ
                     val index = DataRepository.maintenanceList.indexOf(existingMaintenance)
                     if (index != -1) {
                         DataRepository.maintenanceList[index] = existingMaintenance.copy(

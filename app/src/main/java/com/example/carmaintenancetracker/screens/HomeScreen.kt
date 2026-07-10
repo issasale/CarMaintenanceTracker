@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.carmaintenancetracker.components.BottomBar
@@ -47,7 +46,8 @@ fun HomeScreen(
                 onStatisticsClick = onStatisticsClick,
                 onSettingsClick = onSettingsClick
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
 
         Column(
@@ -64,7 +64,8 @@ fun HomeScreen(
             Text(
                 text = "Трекер обслуживания автомобиля",
                 style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -72,7 +73,7 @@ fun HomeScreen(
             Text(
                 text = "Управляйте обслуживанием вашего автомобиля",
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -119,7 +120,8 @@ fun HomeScreen(
             Text(
                 text = "Последнее обслуживание",
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -127,7 +129,7 @@ fun HomeScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(
                     modifier = Modifier
@@ -143,12 +145,13 @@ fun HomeScreen(
                             Text(
                                 text = lastMaintenance.type,
                                 style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
 
                             Text(
                                 text = "${lastMaintenance.cost.toInt()} ₽",
-                                color = Color(0xFFDC2626),
+                                color = MaterialTheme.colorScheme.error,
                                 fontWeight = FontWeight.Bold
                             )
                         }
@@ -157,19 +160,19 @@ fun HomeScreen(
 
                         Text(
                             text = lastMaintenance.date,
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
                             text = "Пробег: ${lastMaintenance.mileage} км",
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     } else {
                         Text(
                             text = "Пока нет записей об обслуживании",
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
